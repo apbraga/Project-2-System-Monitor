@@ -20,12 +20,19 @@ class Process {
 
   // TODO: Declare any necessary private members
  private:
- std::string pid_;
+ int pid_;
  std::string user_;
  float cpu_utilization_;
  std::string ram_;
  long uptime_;
  std::string command_;
+ enum ProcessStates {
+    kUtime_ = 0,
+    kStime_,
+    kCutime_,
+    kCstime_,
+    kStarttime_
+ };
 
 };
 
