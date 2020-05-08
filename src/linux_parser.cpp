@@ -226,9 +226,11 @@ string LinuxParser::Command(int pid) {
 // Read and return the memory used by a process
 string LinuxParser::Ram(int pid) {
   std::string line, key, value = "";
-  std::ifstream filestream(kProcDirectory + "/" + std::to_string(pid)+kStatusFilename);
+  std::ifstream filestream(kProcDirectory + "/" + std::to_string(pid) + kStatusFilename);
   if(filestream.is_open()){
     while(std::getline(filestream, line)){
+      std::remove(line.begin(),line.end(),' ');
+      //std::remove(line.begin(),line.end(),'k');
       std::replace(line.begin(),line.end(),':',' ');
       std::istringstream linestream(line);
       while(linestream >> key >> value){
@@ -262,14 +264,15 @@ string LinuxParser::Uid(int pid) {
 // Read and return the user associated with a process
 string LinuxParser::User(int pid) { 
   std::string id = Uid(pid);
-  std::string line, dummy, key, value = "";
+  std::string line, dummy,value = "";
+  int key;
   std::ifstream filestream(kPasswordPath);
   if(filestream.is_open()){
     while(std::getline(filestream,line)){
       std::replace(line.begin(), line.end(), ':', ' ');
       std::istringstream linestream(line);
       while(linestream >> value >> dummy >> key){
-        if(key=="uid"){
+        if(key == pid){
           return value;
         }
       }
@@ -286,7 +289,7 @@ long LinuxParser::UpTime(int pid) {
   if(filestream.is_open()){
     while(std::getline(filestream, line)){
       std::istringstream linestream(line);
-      for(int i = 1; i <- kStarttime_; i++) {
+      for(int i = 1; i <= kStarttime_; i++) {
         linestream >> value;
         if (i == kStarttime_){
           try{

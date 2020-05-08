@@ -17,12 +17,13 @@ Process::Process(int pid){
     pid_ = pid;
     // set user name for the process
     user_ = LinuxParser::User(pid);
+    //set up time   
+    uptime_ = LinuxParser::UpTime(pid);
     //set Cpu Utilization for a process
-    long uptime = UpTime();
     std::vector<float> values = LinuxParser::CpuUtilization(pid);
-    if(values.size() ==5){
+    if(values.size() == 5){
         cpu_utilization_ = (values[kUtime_] + values[kStime_] + values[kCutime_] + values[kCstime_]);
-        cpu_utilization_ /= (uptime_- values[kStarttime_]);
+        cpu_utilization_ = cpu_utilization_/(uptime_ - values[kStarttime_]);
     }
     else{
         cpu_utilization_ = 0;
@@ -60,5 +61,5 @@ long int Process::UpTime() { return uptime_; }
 //NOT USED
 // TODO: Overload the "less than" comparison operator for Process objects
 // REMOVE: [[maybe_unused]] once you define the function
-// bool Process::operator<(Process const& a[[maybe_unused]]) const { return true; }
+bool Process::operator<(Process const& a[[maybe_unused]]) const { return true; }
 

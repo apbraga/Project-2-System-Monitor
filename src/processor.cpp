@@ -33,8 +33,6 @@ float Processor::Utilization() {
 
     float delta_idle = idle_time - prev_idle;
     float delta_total = total_time - prev_total;
-    float delta_idle = idle_time - prev_idle;
-
     float usage = (delta_total-delta_idle)/delta_total;
 
     prev_total = total_time;
