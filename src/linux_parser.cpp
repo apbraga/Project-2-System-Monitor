@@ -229,12 +229,11 @@ string LinuxParser::Ram(int pid) {
   std::ifstream filestream(kProcDirectory + "/" + std::to_string(pid) + kStatusFilename);
   if(filestream.is_open()){
     while(std::getline(filestream, line)){
-      std::remove(line.begin(),line.end(),' ');
-      //std::remove(line.begin(),line.end(),'k');
       std::replace(line.begin(),line.end(),':',' ');
       std::istringstream linestream(line);
       while(linestream >> key >> value){
-        if(key == "VmSize"){
+        if(key == "VmData"){
+
           return value;
         }
       }
@@ -264,15 +263,14 @@ string LinuxParser::Uid(int pid) {
 // Read and return the user associated with a process
 string LinuxParser::User(int pid) { 
   std::string id = Uid(pid);
-  std::string line, dummy,value = "";
-  int key;
+  std::string line, dummy, key, value = "";
   std::ifstream filestream(kPasswordPath);
   if(filestream.is_open()){
     while(std::getline(filestream,line)){
       std::replace(line.begin(), line.end(), ':', ' ');
       std::istringstream linestream(line);
       while(linestream >> value >> dummy >> key){
-        if(key == pid){
+        if(key == id){
           return value;
         }
       }

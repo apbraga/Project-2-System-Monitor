@@ -22,12 +22,12 @@ vector<Process>& System::Processes() {
     processes_ = {};
     std::vector<int> pids = LinuxParser::Pids();
     for(int pid : pids){
-        Process process(pid);
+        Process process = Process(pid);
         processes_.push_back(process);
     }
 
-    std::sort(processes_.begin(), processes_.end(),[](Process& p1,Process& p2){
-        return (p1.CpuUtilization() < p2.CpuUtilization());
+    std::sort(processes_.begin(), processes_.end(),[](const Process& p1, const Process& p2){
+        return (p1 < p2);
     });
     return processes_; 
 }
