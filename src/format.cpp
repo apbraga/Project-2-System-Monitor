@@ -14,7 +14,28 @@ string Format::ElapsedTime(long seconds) {
   minutes = seconds / 60;
   hours = minutes / 60;
   std::stringstream s;
-  s << hours << ":" << int(minutes % 60) << ":" << int(seconds % 60) << std::endl;
+  std::string hours_s, minutes_s, seconds_s;
+  
+  if(hours < 10 ){
+    hours_s = "0" + std::to_string(hours) + ":";
+  } else {
+    hours_s = std::to_string(hours) + ":";
+  }
+ 
+    if(int(minutes % 60) < 10 ){
+    minutes_s = "0" + std::to_string(int(minutes % 60)) + ":";
+      
+  } else {
+    minutes_s = std::to_string(int(minutes % 60)) + ":";
+  }
+
+    if(int(seconds % 60) < 10 ){
+    seconds_s = "0" + std::to_string(int(seconds % 60));
+  } else {
+    seconds_s = std::to_string(int(seconds % 60));
+  }  
+  
+  s << hours_s << minutes_s << seconds_s << std::endl;
   return s.str();
 }
   
