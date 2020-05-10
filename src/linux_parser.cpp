@@ -292,7 +292,7 @@ long LinuxParser::UpTime(int pid) {
         if (i == kStarttime_){
           try{
             time = std::stol(value) / sysconf(_SC_CLK_TCK);
-            return time;
+            return LinuxParser::UpTime() - time;
           }catch(const std::invalid_argument& arg){
             return 0;
           }
@@ -300,5 +300,5 @@ long LinuxParser::UpTime(int pid) {
       }
     }
   }  
-  return time;
+  return LinuxParser::UpTime() - time;
 }
